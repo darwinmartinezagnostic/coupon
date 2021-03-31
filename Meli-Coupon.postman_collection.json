@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "2f8adce9-7e69-4efb-ae04-ff08fef5f05c",
+		"name": "Meli-Coupon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Coupon",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": {{amount}},\n  \"item_ids\": {{items}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://test-meli-coupon.azurewebsites.net/api/v1/coupon",
+					"protocol": "https",
+					"host": [
+						"test-meli-coupon",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1",
+						"coupon"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var itemAux = \"[\";",
+					"",
+					"for(var i = 1129; i<1300;i++){",
+					"    itemAux += \"\\\"MLA89594\"+i+\"\\\",\";",
+					"}",
+					"",
+					"itemAux += \"\\\"MLA89594\"+2010+\"\\\"]\";",
+					"",
+					"pm.collectionVariables.set(\"items\", itemAux);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var schema = {",
+					"    \"$schema\": \"http://json-schema.org/draft-07/schema\",",
+					"    \"$id\": \"http://example.com/example.json\",",
+					"    \"type\": \"object\",",
+					"    \"required\": [",
+					"        \"item_ids\",",
+					"        \"total\"",
+					"    ],",
+					"    \"properties\": {",
+					"        \"item_ids\": {",
+					"            \"$id\": \"#/properties/item_ids\",",
+					"            \"type\": \"array\",",
+					"            \"additionalItems\": true,",
+					"            \"items\": {",
+					"                \"$id\": \"#/properties/item_ids/items\",",
+					"                \"anyOf\": [",
+					"                    {",
+					"                        \"$id\": \"#/properties/item_ids/items/anyOf/0\",",
+					"                        \"type\": \"string\"",
+					"                    }",
+					"                ]",
+					"            }",
+					"        },",
+					"        \"total\": {",
+					"            \"$id\": \"#/properties/total\",",
+					"            \"type\": \"number\"",
+					"        }",
+					"    },",
+					"    \"additionalProperties\": true",
+					"};",
+					"",
+					"",
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Response time is less than 5s\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});",
+					"",
+					"pm.test('Items schema is valid', function() {",
+					"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "amount",
+			"value": "15000"
+		},
+		{
+			"key": "items",
+			"value": "[MLA895941131,MLA895941132,MLA895941133,MLA895941130,MLA895941134,MLA895941135,MLA895941136,MLA895941137,MLA895941138,MLA895941139,MLA895941140,MLA895941141,MLA895941142,MLA895941143,MLA895941144,MLA895941145,MLA895941146,MLA895941147,MLA895941148,MLA895941149,MLA895941150]"
+		}
+	]
+}
